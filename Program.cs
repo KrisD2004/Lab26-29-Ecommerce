@@ -10,9 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddCors();
 string connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<CommyDBContext>(options => options.UseSqlServer(connectionString));
+
+
+
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,5 +38,6 @@ app.MapControllerRoute(
     pattern: "{controller}/{action=Index}/{id?}");
 
 app.MapFallbackToFile("index.html");
+app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.Run();

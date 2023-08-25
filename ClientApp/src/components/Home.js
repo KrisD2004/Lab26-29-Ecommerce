@@ -1,58 +1,58 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { ButtonGroup, Button } from 'reactstrap';
 import { ButtonToolbar } from 'reactstrap';
 import { Container, Row, Col } from 'reactstrap';
+import axios from 'axios';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-export class Home extends Component {
-    static displayName = Home.name;
 
-    render() {
+
+export function Home() {
+
+
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        async function loadingData() {
+            var response = await axios.get("https://localhost:7261/categories").then(res => {
+                //console.log(res.data)
+                setCategories(res.data)
+            });
+        }
+        loadingData();
+    }, [categories]);
+
+
+
+    var categoriesHTML = categories.map((element) => {
+
         return (
-            <div className="firstDiv">
-                <h1>Welcome to Krisler </h1>
-                <p>Welcome to your new favortie store!</p>
+            <Row key={element.id }>
+                <Col>
+                    <Link to={`/${element.name}`}>
+                        {element.name}
+                    </Link>
+                </Col>
 
-                <div className="secDivv">
-                    <Container>
-                        <Row>
-                            <Col>
-                                Groceries
-                                Clothes
-                            </Col>
-                        </Row>
+            </Row>
+        )
 
-                        <Row>
-                            <Col>
-                                Electronics
-                                Jewlery
-                            </Col>
-                        </Row>
-
-                        <Row>
-                            <Col>
-                                Home Applicances
-                                Instruments
-                            </Col>
-                        </Row>
+    })
 
 
-                    </Container>
-                </div>
-                {/* 
-                <div className="secDiv">
-                    <Button outline color="primary">Groceries</Button>{' '}
-                    <Button outline color="primary">Clothes</Button>{' '}
-                    <Button outline color="primary">Jewelry</Button>{' '}
-                    <Button outline color="primary">Eletronics</Button>{' '}
-                    <Button outline color="primary">Home Applicances</Button>{' '}
-                    <Button outline color="primary">Automotive</Button>{' '}
+    return (
+        <div className="firstDiv">
+            <h1>Welcome to Kris Sto </h1>
+            <p>Welcome to your new favortie store!</p>
 
-                    
-                </div>
-                */}
-
+            <div className="secDivv">
+                <Container>
+                    {categoriesHTML}
+                </Container>
             </div>
+        </div>
 
-        );
-    }
+    );
+
 }

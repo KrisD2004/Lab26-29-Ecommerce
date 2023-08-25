@@ -3,6 +3,7 @@ using Labs26_29;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Labs26_29.Migrations
 {
     [DbContext(typeof(CommyDBContext))]
-    partial class CommyDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230822211427_DummData")]
+    partial class DummData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,16 +109,18 @@ namespace Labs26_29.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("Labs26_29.Models.Product", b =>
                 {
-                    b.HasOne("Labs26_29.Models.Category", null)
+                    b.HasOne("Labs26_29.Models.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Labs26_29.Models.Category", b =>
