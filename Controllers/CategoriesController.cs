@@ -31,7 +31,7 @@ namespace Labs26_29.Controllers
 
         public async Task<IEnumerable<Category>> GetCategories()
         {
-            var categories = _context.Categories.ToList();
+            var categories = _context.Categories.Include(c => c.Products).ToList();
             return categories;
         }
 
@@ -44,7 +44,7 @@ namespace Labs26_29.Controllers
             return Ok(category);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCategory(int id)
         {
             Category categoryToDelete = await _context.Categories.FindAsync(id);
@@ -53,18 +53,22 @@ namespace Labs26_29.Controllers
             return Ok();
         }
 
-        [HttpPut]
-        public async Task<ActionResult> UpdateCategory(int Id, Category updatedCategory)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateCategory(int Id, [FromBody] Category updatedCategory)
         {
-             var existingCategory = await _context.Categories.FindAsync(Id);
+             var existingCategory =  _context.Categories.Find(Id);
+            if (existingCategory == null)
+            {
+                return NotFound();
+            }
             existingCategory.Name = updatedCategory.Name;
             existingCategory.Description = updatedCategory.Description;
-            _context.Categories.Update(existingCategory);
-            await _context.SaveChangesAsync();
+            
+             _context.SaveChanges();
 
 
             return Ok(existingCategory);
-
+            
 
         }
         

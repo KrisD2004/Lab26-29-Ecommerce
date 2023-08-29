@@ -50,15 +50,18 @@ namespace Labs26_29.Controllers
             return Ok();
         }
 
-        [HttpPut]
-        public async Task<ActionResult> UpdateProduct(int Id, Product updatedProduct)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateProduct(int Id,[FromBody] Product updatedProduct)
         {
-            var existingProduct = await _context.Products.FindAsync(Id);
+            var existingProduct =  _context.Products.Find(Id);
+            if (existingProduct == null)
+            {
+                return NotFound();
+            }
             existingProduct.Name = updatedProduct.Name;
             existingProduct.Description = updatedProduct.Description;
             existingProduct.Price = updatedProduct.Price;
-            _context.Products.Update(existingProduct);
-            await _context.SaveChangesAsync();
+             _context.SaveChanges();
 
 
             return Ok(existingProduct);

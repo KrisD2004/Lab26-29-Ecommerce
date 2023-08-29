@@ -22,7 +22,7 @@ const AppRoutes = [
         path: '/fetch-data',
         element: <FetchData />
     },
-    {
+    /*{
         path: '/jewelry',
         element: <Jewelry />
     },
@@ -45,7 +45,7 @@ const AppRoutes = [
 {
     path:'/instruments',
     element: <Instruments />
-    }
+    }*/
 ];
 
 export default AppRoutes;
