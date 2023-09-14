@@ -41,13 +41,28 @@ namespace Labs26_29.Controllers
             return Ok(products);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteProduct(int id)
         {
-            Product ProductToDelete = await _context.Products.FindAsync(id);
-            _context.Products.Remove(ProductToDelete);
-            _context.SaveChanges();
-            return Ok();
+            try
+            {
+                var productToDelete = await _context.Products.FindAsync(id);
+
+                if (productToDelete == null)
+                {
+                    return NotFound(); // Return a 404 response if the product doesn't exist.
+                }
+
+                _context.Products.Remove(productToDelete);
+                await _context.SaveChangesAsync();
+
+                return NoContent(); // Return a 204 response to indicate success with no content.
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that occur during deletion.
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
         }
 
         [HttpPut("{id}")]
