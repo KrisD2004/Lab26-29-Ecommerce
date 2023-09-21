@@ -390,25 +390,28 @@ export function Home() {
                 <ModalHeader toggle={closeAddProductModal}>Add New Product</ModalHeader>
                 <ModalBody>
                     <div>
-                        <label>Name:</label>
+                        <label style={{ marginBottom: '10px', display: 'block' }}>Name:</label>
                         <input
                             type="text"
                             value={newProduct.name}
                             onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+                            style={{ width: '100%', padding: '8px', marginBottom: '15px' }}
                         />
-                        <label>Description:</label>
+                        <label style={{ marginBottom: '10px', display: 'block' }}>Description:</label>
                         <input
                             type="text"
                             value={newProduct.description}
                             onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
+                            style={{ width: '100%', padding: '8px', marginBottom: '15px' }}
                         />
-                        <label>Price:</label>
+                        <label style={{ marginBottom: '10px', display: 'block' }}>Price:</label>
                         <input
                             type="number"
                             value={newProduct.price}
                             onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
+                            style={{ width: '100%', padding: '8px', marginBottom: '15px' }}
                         />
-                        <Button color="primary" onClick={handleAddProduct}>
+                        <Button color="primary" onClick={handleAddProduct} style={{ width: '100%' }}>
                             Add Product
                         </Button>
                     </div>
@@ -489,7 +492,7 @@ export function Home() {
                 </ModalBody>
             </Modal>
 
-            <Button color="primary" onClick={openAddModal}>
+            <Button color="primary" onClick={openAddModal} style={{ marginTop: '10px', backgroundColor: 'lightgreen' }}>
                 Add New Category
             </Button>
 
